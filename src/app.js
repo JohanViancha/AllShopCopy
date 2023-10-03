@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const corsOpts = {
@@ -24,6 +25,11 @@ class Server{
         this.port = process.env.PORT;
         this.server = require('http').createServer(this.app);
 
+
+        //Routes
+        this.usersPath="/api/users";
+        this.ordersPath = "/api/orders";
+
         //Middlewares
         this.middleeares();
 
@@ -35,6 +41,10 @@ class Server{
 
         //Lectura y perseo del body
         this.app.use(express.json())
+
+        //Parse el cuerpo de la solicitud
+        app.use(bodyParser.urlencoded({ extended: false }));
+        app.use(bodyParser.json());
     }
 
     listen(){
