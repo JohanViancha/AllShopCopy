@@ -2,9 +2,20 @@ const { Router } = require('express');
 const router = Router();
 
 const { 
-    registerUser
+    registerUser,
+    verifyToken,
+    authenticateUser,
+    getAddresses,
+    addAddresses,
+    getUser
     } = require('../controllers/users')
 
-router.get('/register', registerUser) 
+router.post('/register', registerUser) 
+router.post('/verify-token/:token', verifyToken) 
+router.post('/authenticate-user', authenticateUser) 
+router.post('/add-addresses', addAddresses)
+router.get('/addresses/:userId', getAddresses),
+router.get('/getUser/:userId', getUser) 
+
 
 module.exports = router;
