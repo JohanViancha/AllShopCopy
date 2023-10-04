@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const connectDatabase =  require('./database/config');
 
 const corsOpts = {
     origin: '*',
@@ -33,6 +34,11 @@ class Server{
         //Middlewares
         this.middleeares();
 
+        //Connection Database
+        connectDatabase();
+
+        //Route
+        this.routes()
     }
 
     middleeares(){
@@ -43,9 +49,15 @@ class Server{
         this.app.use(express.json())
 
         //Parse el cuerpo de la solicitud
-        app.use(bodyParser.urlencoded({ extended: false }));
-        app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json());
     }
+
+    routes(){
+      this.app.use(this.usersPath, require('./routes/users'))
+      this.app.use(this.ordersPath, require('./routes/orders'))
+
+  }
 
     listen(){
         this.server.listen(this.port || 3000,()=>{
