@@ -11,7 +11,7 @@ const {
     } = require('../controllers/users')
 
 router.post('/register', registerUser) 
-router.post('/verify-token/:token', verifyToken) 
+router.get('/verify-token/:token', verifyToken) 
 router.post('/authenticate-user', authenticateUser) 
 router.post('/add-addresses', addAddresses)
 router.get('/addresses/:userId', getAddresses),
