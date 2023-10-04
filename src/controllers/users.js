@@ -22,9 +22,7 @@ const registerUser = async (req = request, res = response) => {
         const newUser = new User({ name, email, password });
         newUser.verificationToken = getRandomToken();
         await newUser.save();
-        mail.sendMail(sendVerificationEmail('vianchajohan@gmail.com', '123')).then((aa)=>{
-            console.log(aa)
-        })
+        mail.sendMail(sendVerificationEmail(newUser.email, newUser.verificationToken));
         res.status(201).json({
             message: "Registration successful. Please check your email for verification.",
         });
