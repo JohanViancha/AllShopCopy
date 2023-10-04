@@ -1,5 +1,8 @@
 const { response, request } = require('express');
 const User = require('../models/users')
+const mail = require('../mail/config')
+const { sendVerificationEmail } = require('../mail/template')
+
 const { getRandomToken, asign } = require('../utils/jwt')
 
 
@@ -19,11 +22,14 @@ const registerUser = async (req = request, res = response) => {
         const newUser = new User({ name, email, password });
         newUser.verificationToken = getRandomToken();
         await newUser.save();
-        //sendVerificationEmail(newUser.email, newUser.verificationToken);
+        mail.sendMail(sendVerificationEmail('vianchajohan@gmail.com', '123')).then((aa)=>{
+            console.log(aa)
+        })
         res.status(201).json({
             message: "Registration successful. Please check your email for verification.",
         });
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             message: "Registration failed",
             error
@@ -81,7 +87,7 @@ const authenticateUser = async (req = request, res = response) => {
     }
 }
 
-const addAddresses = async (req = request, res = response ) =>{
+const addAddresses = async (req = request, res = response) => {
     try {
         const { userId, address } = req.body;
 
