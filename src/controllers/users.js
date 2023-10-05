@@ -15,7 +15,7 @@ const registerUser = async (req = request, res = response) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json(responseHttp({ codeResponse:409 }));
+      return res.status(409).json(responseHttp({ codeResponse: 409 }));
     }
 
     const newUser = new User({ name, email, password });
@@ -26,7 +26,7 @@ const registerUser = async (req = request, res = response) => {
     );
     res.status(201).json(responseHttp({ codeResponse: 201 }));
   } catch (error) {
-    res.status(500).json(responseHttp({ codeResponse:500, message: error }));
+    res.status(500).json(responseHttp({ codeResponse: 500, message: error }));
   }
 };
 
@@ -35,22 +35,22 @@ const verifyToken = async (req = request, res = response) => {
     const token = req.params.token;
 
     if (!token) {
-      return res.status(406).json({ message: "Body invalid" });
+      return res.status(400).json(responseHttp({ codeResponse: 400 }));
     }
 
     const user = await User.findOne({ verificationToken: token });
 
     if (!user) {
-      return res.status(404).json({ message: "Invalid verification token" });
+      return res.status(404).json(responseHttp({ codeResponse: 404 }));
     }
 
     user.verified = true;
     user.verificationToken = undefined;
 
     await user.save();
-    res.status(200).json({ message: "Email verified successfully" });
+    res.status(200).json(responseHttp({ codeResponse: 200 }));
   } catch (error) {
-    res.status(500).json({ message: "Email verification failed" });
+    res.status(500).json(responseHttp({ codeResponse: 500, message: error }));
   }
 };
 
@@ -103,7 +103,7 @@ const getAddresses = async (req = request, res = response) => {
     const addresses = user.addresses;
     res.status(200).json(responseHttp({ codeResponse: 200, data: addresses }));
   } catch (error) {
-    res.status(500).json(responseHttp({ codeResponse:500, message: error }));
+    res.status(500).json(responseHttp({ codeResponse: 500, message: error }));
   }
 };
 
@@ -114,12 +114,12 @@ const getUser = async (req = request, res = response) => {
     const user = await User.findById(userId);
 
     if (!user) {
-        return res.status(404).json(responseHttp({ codeResponse: 404 }));
+      return res.status(404).json(responseHttp({ codeResponse: 404 }));
     }
 
-    res.status(200).json(responseHttp({ codeResponse: 200,  data: user }));
+    res.status(200).json(responseHttp({ codeResponse: 200, data: user }));
   } catch (error) {
-    res.status(500).json(responseHttp({ codeResponse:500, message: error }));
+    res.status(500).json(responseHttp({ codeResponse: 500, message: error }));
   }
 };
 
