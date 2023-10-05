@@ -28,8 +28,8 @@ class Server {
 
 
     //Routes
-    this.usersPath = "/api/users";
-    this.ordersPath = "/api/orders";
+    this.usersPath = process.env.URLPATHUSER;
+    this.ordersPath = process.env.URLPATHORDER;
 
     //Middlewares
     this.middleeares();
