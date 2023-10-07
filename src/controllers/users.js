@@ -7,10 +7,10 @@ const responseHttp = require("../utils/response");
 
 const registerUser = async (req = request, res = response) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, lastname, email, password } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(406).json({ message: "Body invalid" });
+    if (!name || !email || !password || !lastname) {
+      return res.status(406).json(responseHttp({ codeResponse: 400 }));
     }
 
     const existingUser = await User.findOne({ email });
@@ -80,7 +80,7 @@ const addAddresses = async (req = request, res = response) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json(responseHttp({ codeResponse: 404 }));
     }
     user.addresses.push(address);
     await user.save();
