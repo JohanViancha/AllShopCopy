@@ -7,9 +7,9 @@ const responseHttp = require("../utils/response");
 
 const registerUser = async (req = request, res = response) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, lastname, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !lastname) {
       return res.status(406).json({ message: "Body invalid" });
     }
 
