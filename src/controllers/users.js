@@ -18,7 +18,7 @@ const registerUser = async (req = request, res = response) => {
       return res.status(409).json(responseHttp({ codeResponse: 409 }));
     }
 
-    const newUser = new User({ name, email, password });
+    const newUser = new User({ name, email, lastname, password });
     newUser.verificationToken = getRandomToken();
     await newUser.save();
     mail.sendMail(
