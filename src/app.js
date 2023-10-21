@@ -48,12 +48,17 @@ class Server {
     //Lectura y perseo del body
     this.app.use(express.json())
 
+    this.app.use(express.static('public'))
+
     //Parse el cuerpo de la solicitud
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(bodyParser.json());
   }
 
   routes() {
+    this.app.get('/', ((req, res)=>{
+      res.send('Proyecto en ejecución')
+    }))
     this.app.use(this.usersPath, require('./routes/users'))
     this.app.use(this.ordersPath, require('./routes/orders'))
 
